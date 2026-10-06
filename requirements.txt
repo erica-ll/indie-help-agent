@@ -1,0 +1,16 @@
+chromadb
+openai
+python-dotenv
+tqdm
+pyyaml
+pydantic
+bm25s
+cohere
+langgraph
+langchain
+langchain-openai
+langchain-mcp-adapters
+fastmcp
+wikipedia
+langchain-community==0.4.0
+duckduckgo-search
