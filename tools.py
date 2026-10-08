@@ -22,7 +22,11 @@ def search_web(query: str) -> str:
 @mcp.tool
 def search_rag(question: str) -> str:
     """Search the IndieHelp knowledge base for an answer."""
-    return rag_run(question)["answer"]
+    try:
+        results = rag_run(question)["answer"]
+        return results
+    except Exception as e:
+        return f"RAG Search faild{ str(e)}"
 
 
 if __name__ == "__main__":
