@@ -29,5 +29,22 @@ def search_rag(question: str) -> str:
         return f"RAG Search faild{ str(e)}"
 
 
+DRAFTS_DIR = Path(__file__).with_name("drafts")
+
+@mcp.tool
+def write_draft_to_file(content: str, filename: str) -> str:
+    """Save a finished Markdown draft to a local file. Call this once the response is fully written.
+    `content` is the complete Markdown text; `filename` is a short name like 'unity-input-system'."""
+    try:
+        DRAFTS_DIR.mkdir(exist_ok=True)
+        safe_name = Path(filename).stem + ".md"   # strip directories/extensions the LLM might add
+        path = DRAFTS_DIR / safe_name
+        path.write_text(content, encoding="utf-8")
+        return f"Draft saved to {path}"
+    except Exception as e:
+        return f"Failed to save draft: {e}"
+
+
+
 if __name__ == "__main__":
     mcp.run()
