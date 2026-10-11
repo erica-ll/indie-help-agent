@@ -18,11 +18,12 @@ load_dotenv()
 class PipelineState(TypedDict):
     question: str
     tools_called: list[str]
+    file_path: str
 
 class ResearchResponse(BaseModel):
-    # topic: str
-    # summary: str
-    # sources: list[str]
+    topic: str
+    summary: str
+    sources: list[str]
     tools_used: list[str]
     file_path: str
 
@@ -44,9 +45,14 @@ def build_graph(agent):
             for call in getattr(m, "tool_calls", [])
             if call["name"] != "ResearchResponse"  # ToolStrategy's own "final answer" tool
         ]
+        file_path = result["structured_response"].file_path
         return {
             "file_path": result["structured_response"].file_path,
             "tools_called": tools_called,
+            # "topic": result["structured_response"].topic,
+            # "summary": result["structured_response"].summary,
+            # "sources": result["structured_response"].sources,
+            # "tools_used": result["structured_response"].tools_used,
         }
         
     graph = StateGraph(PipelineState)
